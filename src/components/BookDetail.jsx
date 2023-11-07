@@ -1,6 +1,6 @@
 import { Col, Row, Button } from 'react-bootstrap'
 import { FaShoppingCart } from 'react-icons/fa'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addToCartAction } from '../redux/actions'
 
 // REGOLE DEGLI HOOKS
@@ -9,6 +9,9 @@ import { addToCartAction } from '../redux/actions'
 
 const BookDetail = ({ bookSelected }) => {
   const dispatch = useDispatch() // salvo in una variabile la funzione dispatch, che userò per "dispatchare" azioni
+
+  const user = useSelector((state) => state.user.username)
+  // al caricamento della pagina è stringa vuota, se l'utente riempie l'input field allora risulterà loggato
 
   return (
     <div className="mt-3 mb-4 mb-lg-0">
@@ -31,22 +34,26 @@ const BookDetail = ({ bookSelected }) => {
             </Col>
             <Col sm={8}>
               <p>
-                <span className="fw-bold">Description:</span>&nbsp;
+                <span className="fw-bold me-1">Description:</span>
                 {bookSelected.description}
               </p>
               <p>
-                <span className="fw-bold">Price:</span>&nbsp;
+                <span className="fw-bold me-1">Price:</span>
                 {bookSelected.price}$
               </p>
-              <Button
-                className="d-flex align-items-center"
-                onClick={() => {
-                  dispatch(addToCartAction(bookSelected))
-                }}
-              >
-                <span className="me-2">AGGIUNGI AL</span>
-                <FaShoppingCart />
-              </Button>
+              {user ? (
+                <Button
+                  className="d-flex align-items-center"
+                  onClick={() => {
+                    dispatch(addToCartAction(bookSelected))
+                  }}
+                >
+                  <span className="me-2">AGGIUNGI AL</span>
+                  <FaShoppingCart />
+                </Button>
+              ) : (
+                <p>Effettua l'accesso per comprare questo libro</p>
+              )}
             </Col>
           </Row>
         </>

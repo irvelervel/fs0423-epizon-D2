@@ -1,13 +1,16 @@
 // qui vado a dichiarare il reducer del mio store, ovvero quella funzione PURA (da tot input ottengo sempre tot output)
 // il cui compito è generare un nuovo stato ogni volta che viene "dispatchata" un'azione
 
-import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions'
+import { ADD_TO_CART, REMOVE_FROM_CART, SET_USERNAME } from '../actions'
 
 const initialState = {
   // divido il Redux Store in compartimenti, in modo da tenerlo ordinato e potenzialmente avere una struttura
   // capace di crescere in futuro, se deciderò di ampliare le funzionalità dall'app
   cart: {
     content: [], // l'effettivo array contenente i libri aggiunti al carrello
+  },
+  user: {
+    username: '', // valore falsy
   },
 }
 
@@ -51,6 +54,15 @@ const mainReducer = (
           //   ],
 
           // action.payload è la posizione dell'elemento da eliminare nell'array content
+        },
+      }
+
+    case SET_USERNAME:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          username: action.payload,
         },
       }
 
